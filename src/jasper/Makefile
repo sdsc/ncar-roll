@@ -86,7 +86,6 @@ build: $(SRC_DIRS)
 install::
 	mkdir -p $(ROOT)/$(PKGROOT)
 	$(PKGROOT_BIND_MOUNT)
-        $(MOUNT_BIND_PKGROOT)
 	( \
 	  cd $(SOURCE_DIR); \
 	  $(MAKE) install; \

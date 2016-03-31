@@ -25,22 +25,21 @@ $packageHome = '/opt/jasper';
 SKIP: {
   skip 'jasper not installed', 1 if ! -d $packageHome;
   $output = `module load jasper; jasper --help  2>&1`;
-  $output = lc($output);
   like($output, qr/JasPer Transcoder/, "jasper works");
 }
 
 $packageHome = '/opt/ncl_ncarg';
 SKIP: {
   skip 'ncl_ncarg not installed', 1 if ! -d $packageHome;
-  $output = `module load ncl_ncarg; ncl -V  2>&1`;
-  like($output, qr//, "ncl_ncarg works");
+  $output = `module load ncl_ncarg; ncl -V 2>&1`;
+  like($output, qr/6.2.1/, "ncl_ncarg works");
 }
 
 $packageHome = '/opt/ncview';
 SKIP: {
   skip 'ncview not installed', 1 if ! -d $packageHome;
-  $output = `module load ncview; ncview --help  2>&1`;
-  like($output, qr//, "ncview works");
+  $output = `module load ncview; ncview  2>&1`;
+  like($output, qr/Ncview 2.1.7 David W. Pierce  29 March 2016/, "ncview works");
 }
 
 

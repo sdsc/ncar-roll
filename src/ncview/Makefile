@@ -90,17 +90,19 @@ build: $(SRC_DIRS)
 	  cd $(SOURCE_DIR); \
 	  export CPPFLAGS=-I$(NCAR_CACHE)/udunits/include;  \
 	  export LDFLAGS=-L$(NCAR_CACHE)/udunits/lib;  \
-	  ./configure CC=mpicc --prefix=$(ROOT)/$(PKGROOT) --with-x --with-nc-config=$${NETCDFHOME}/bin/nc-config; \
+	  ./configure CC=mpicc --prefix=$(PKGROOT) --with-x --with-nc-config=$${NETCDFHOME}/bin/nc-config; \
 	  make \
 	)
 	@echo "::: Package $(NAME) build complete :::"
 
 install::
 	mkdir -p $(ROOT)/$(PKGROOT)
+	$(PKGROOT_BIND_MOUNT)
 	( \
             cd $(SOURCE_DIR); \
             make install; \
         )
+	$(PKGROOT_BIND_UMOUNT)
 	cp -r $(NCAR_CACHE)/udunits/* $(ROOT)/$(PKGROOT)
 	$(INSTALL_LICENSE_FILES)
 	@echo "::: Package $(NAME) install complete :::"

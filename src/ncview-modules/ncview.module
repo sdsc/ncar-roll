@@ -1,0 +1,9 @@
+#%Module1.0
+module-whatis "ncview"
+module-whatis "Version: VERSION"
+module-whatis "Description: ncview"
+module-whatis "Compiler: ROLLCOMPILER ROLLMPI"
+setenv NCVIEWHOME /opt/ncl_ncarg
+prepend-path PATH /opt/ncview/bin
+prepend-path LD_LIBRARY_PATH /opt/ncview/lib
+module load ROLLCOMPILER ROLLMPI netcdf

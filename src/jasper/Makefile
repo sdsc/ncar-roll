@@ -78,17 +78,20 @@ build: $(SRC_DIRS)
 	( \
 	  $(MODULE_LOAD_CC); \
 	  cd $(SOURCE_DIR); \
-	  ./configure CC=$(CC) --enable-shared --with-glut-include-dir=/usr/include  --with-glut-lib-dir=/usr/lib64 --prefix=$(ROOT)/$(PKGROOT); \
+	  ./configure CC=$(CC) --enable-shared --with-glut-include-dir=/usr/include  --with-glut-lib-dir=/usr/lib64 --prefix=$(PKGROOT); \
 	  $(MAKE); \
 	)
 	@echo "::: Package $(NAME) build complete :::"
 	
 install::
 	mkdir -p $(ROOT)/$(PKGROOT)
+	$(PKGROOT_BIND_MOUNT)
+        $(MOUNT_BIND_PKGROOT)
 	( \
 	  cd $(SOURCE_DIR); \
 	  $(MAKE) install; \
 	)
+	$(PKGROOT_BIND_UMOUNT)
 	$(INSTALL_LICENSE_FILES)
 	@echo "::: Package $(NAME) install complete :::"
 

@@ -1,5 +1,5 @@
 --- ncl_ncarg-6.3.0/config/LINUX	2015-03-16 14:21:42.000000000 -0700
-+++ patch-files/LINUX	2016-04-03 15:11:03.971358447 -0700
++++ patch-files/LINUX	2016-04-04 15:25:37.139431970 -0700
 @@ -18,24 +18,28 @@
  #define Cstatic
  #define Cdynamic
@@ -14,7 +14,7 @@
 +#define FCompiler   FCOMPILER
 +#define CtoFLibraries   CTOF
 +#define CtoFLibrariesUser  CTOF
-+#define CcOptions      CCOPTIONS -I/usr/include/freetype2 -LNCAR_CACHE/szip/lib -LNCAR_CACHE/cairo/lib
++#define CcOptions      CCOPTIONS -I/usr/include/freetype2 -LNCAR_CACHE/szip/lib -LNCAR_CACHE/cairo/lib -LHDF4HOME/lib -LHDFEOS5/lib
 +#define FcOptions      FCOPTIONS
  #define XToolLibrary    -lXt -lSM -lICE
  #define BuildShared NO
@@ -36,9 +36,9 @@
 -FC = $(F77)
 +FC = FCOMPILER
 +
-+EXTRA_INCLUDES=-INETCDFHOME/include -IHDF5HOME/include -IHDF4HOME/include -IMPIHOME/include -INCAR_CACHE/udunits/include
++EXTRA_INCLUDES=-INETCDFHOME/include -IHDF5HOME/include -IHDF4HOME/include -IMPIHOME/include -INCAR_CACHE/udunits/include -IHDFEOS5/include
 +
-+EXTRA_LIBS=-LNETCDFHOME/lib -LHDF5HOME/lib -LHDF4HOME/lib -LMPIHOME/lib -LNCAR_CACHE/udunits/lib -LNCAR_CACHE/cairo/lib -lcairo
++EXTRA_LIBS=-LNETCDFHOME/lib -LHDF5HOME/lib -LHDF4HOME/lib -LMPIHOME/lib -LNCAR_CACHE/udunits/lib -LNCAR_CACHE/cairo/lib -lcairo -LHDFEOS5/lib
  
  /*************** Redefine Macros from Rules ********************************/
  

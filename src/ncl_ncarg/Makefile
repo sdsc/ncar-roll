@@ -69,7 +69,6 @@ DESCRIPTION:
 	( \
 	  $(DESCRIBE_PKG); \
           $(DESCRIBE_HDF5); \
-          $(DESCRIBE_HDF4); \
           $(DESCRIBE_NETCDF); \
 	  $(DESCRIBE_CC) \
 	) > $@
@@ -98,16 +97,18 @@ build: $(SRC_DIRS)
 	mkdir -p $(NCAR_CACHE)
 	patch $(SOURCE_DIR)/Configure patch-files/Configure.patch
 	patch $(SOURCE_DIR)/config/LINUX patch-files/LINUX.patch
+	patch $(HDFEOS5_SOURCE_DIR)/src/EHapi.c patch-files/EHapi.c.patch
 	cp input $(SOURCE_DIR)
 	( \
 	  $(MODULE_LOAD_CC); \
           $(MODULE_LOAD_MPI); \
 	  $(MODULE_LOAD_HDF5); \
-	  $(MODULE_LOAD_HDF4); \
 	  $(MODULE_LOAD_NETCDF); \
-          cd $(SZIP_SOURCE_DIR); \
           export CC=$(CC); \
           export CXX=$(CXX); \
+          export FC=$(FC); \
+          export F77=$(FC); \
+          cd $(SZIP_SOURCE_DIR); \
           ./configure --prefix=$(NCAR_CACHE)/szip; \
           make; \
           make install; \
@@ -122,6 +123,28 @@ build: $(SRC_DIRS)
           fi; \
           make; \
           make install; \
+          cd ..; \
+          cd $(ZLIB_SOURCE_DIR); \
+          ./configure --prefix=$(NCAR_CACHE)/zlib; \
+          make; \
+          make install; \
+          cd .. ; \
+          cd $(HDF4_SOURCE_DIR); \
+	  ./configure \
+	    --prefix=$(NCAR_CACHE)/hdf4 \
+	    --enable-fortran --disable-netcdf --enable-production --disable-shared \
+	    --enable-static --with-zlib=$(NCAR_CACHE)/zlib --with-szlib=$(NCAR_CACHE)/szip; \
+          make; \
+          make install; \
+          cd ..; \
+          cd $(HDFEOS5_SOURCE_DIR); \
+          export CC=h5pcc; \
+          ./configure --prefix=$(NCAR_CACHE)/hdfeos5 --with-hdf5=$${HDF5HOME} --with-zlib=$(NCAR_CACHE)/zlib; \
+          make; \
+          make install; \
+          mkdir -p $(NCAR_CACHE)/hdfeos5/include; \
+          cp -r include/* $(NCAR_CACHE)/hdfeos5/include; \
+          export CC=$(CC); \
           cd ../$(SOURCE_DIR)/config; \
           make -f Makefile.ini; \
           cd ..; \
@@ -132,11 +155,12 @@ build: $(SRC_DIRS)
           perl -pi -e "s!FCOMPILER!$(FC)!g" config/LINUX; \
           perl -pi -e "s!HDF5HOME!$${HDF5HOME}!g" config/LINUX; \
           perl -pi -e "s!NETCDFHOME!$${NETCDFHOME}!g" config/LINUX; \
-          perl -pi -e "s!HDF4HOME!$${HDF4HOME}!g" config/LINUX; \
+          perl -pi -e "s!HDF4HOME!$(NCAR_CACHE)/hdf4!g" config/LINUX; \
           perl -pi -e "s!MPIHOME!$${MPIHOME}!g" config/LINUX; \
           perl -pi -e "s!NCAR_CACHE!$(NCAR_CACHE)!g" config/LINUX; \
           perl -pi -e "s!EXTRAEXPORTFLAGS!$(EXTRAEXPORTFLAGS)!g" config/LINUX; \
           perl -pi -e "s!GCCHOME!$${GCCHOME}!g" config/LINUX; \
+          perl -pi -e "s!HDFEOS5!$(NCAR_CACHE)/hdfeos5!g" config/LINUX; \
           perl -pi -e "s!NCAR_CACHE!$(NCAR_CACHE)!g" input; \
           ./Configure < input \
 	)
@@ -149,15 +173,16 @@ install::
 	  $(MODULE_LOAD_CC); \
           $(MODULE_LOAD_MPI); \
 	  $(MODULE_LOAD_HDF5); \
-	  $(MODULE_LOAD_HDF4); \
 	  $(MODULE_LOAD_NETCDF); \
           export CC=$(CC); \
           export CXX=$(CXX); \
 	  cd $(SOURCE_DIR); \
           export PATH=`pwd`:$${PATH}; \
           make Everything; \
-          cp -r $(NCAR_CACHE)/szip/* $(ROOT)/$(PKGROOT); \
-          cp -r $(NCAR_CACHE)/cairo/* $(ROOT)/$(PKGROOT); \
+          cp -r $(NCAR_CACHE)/szip/lib/* $(ROOT)/$(PKGROOT)/lib; \
+          cp -r $(NCAR_CACHE)/cairo/lib/* $(ROOT)/$(PKGROOT)/lib; \
+          cp -r $(NCAR_CACHE)/hdf4/lib/* $(ROOT)/$(PKGROOT)/lib; \
+          cp -r $(NCAR_CACHE)/hdfeos5/lib/* $(ROOT)/$(PKGROOT)/lib; \
 	)
 	$(PKGROOT_BIND_UMOUNT)
 	$(INSTALL_LICENSE_FILES)

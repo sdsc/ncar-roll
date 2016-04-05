@@ -189,4 +189,4 @@ install::
 	@echo "::: Package $(NAME) install complete :::"
 
 clean::
-	rm -rf $(SOURCE_DIR) $(NCAR_CACHE) DESCRIPTION LICENSE
+	rm -rf $(SOURCE_DIR) DESCRIPTION LICENSE

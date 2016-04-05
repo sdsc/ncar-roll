@@ -30,7 +30,7 @@ $packageHome = '/opt/ncl_ncarg';
 SKIP: {
   skip 'ncl_ncarg not installed', 1 if ! -d $packageHome;
   $output = `module load ncl_ncarg; ncl -V 2>&1`;
-  like($output, qr/6.2.1/, "ncl_ncarg works");
+  like($output, qr/6.3.0/, "ncl_ncarg works");
 }
 
 $packageHome = '/opt/ncview';

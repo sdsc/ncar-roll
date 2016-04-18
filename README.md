@@ -24,21 +24,13 @@ Rocks development machine.
 
 ## Dependencies
 
-The sdsc-roll must be installed on the build machine, since the build process
-depends on make include files provided by that roll.
 
-<IF APPROPRIATE>
-The roll sources assume that modulefiles provided by SDSC compiler and mpi
-rolls are available, but it will build without them as long as the environment
-variables they provide are otherwise defined.
-<ENDIF>
-
-<IF APPROPRIATE>
-The build process requires the XYZ libraries and assumes that the xyz
-modulefile provided by the SDSC xyz-roll is available.  It will build without
-the modulefile as long as the environment variables it provides are otherwise
-defined.
-<ENDIF>
+The build process requires the netcdf and hdf5 libraries and assumes that the netcdf
+modulefile provided by the SDSC netcdf-roll is available (the netcdf module provides paths
+to the hdf5 libraries).  The glut library and include files are required as well.
+(CENTOS freeglut-devel.x86_64).
+It will build without the modulefile as long as the environment
+variables it provides are otherwise defined.
 
 
 ## Building
@@ -55,7 +47,6 @@ the roll on a Rocks frontend, proceed to the installation step. If you built the
 roll on a Rocks development appliance, you need to copy the roll to your Rocks
 frontend before continuing with installation.
 
-<IF APPROPRIATE>
 This roll source supports building with different compilers and for different
 MPI flavors.  The `ROLLCOMPILER` and `ROLLMPI` make variables can be used to
 specify the names of compiler and MPI modulefiles to use for building the
@@ -69,23 +60,6 @@ The build process recognizes "gnu", "intel" or "pgi" as the value for the
 `ROLLCOMPILER` variable; any MPI modulefile name may be used as the value of
 the `ROLLMPI` variable.  The default values are "gnu" and "rocks-openmpi".
 <ENDIF>
-
-<IF APPROPRIATE>
-The roll supports specifying building with/for python versions other than
-the one included with the o/s.  To use this feature, specify a `ROLLPY` make
-variable that includes a space-delimited list of python modulefiles, e.g.,
-
-```shell
-% make ROLLPY=opt-python 2>&1 | tee build.log
-```
-<ENDIF>
-
-<IF APPROPRIATE>
-For gnu compilers, the roll supports a `ROLLOPTS` make variable value of
-'avx' or 'avx2', indicating that the target architecture supports AVX/AVX2
-instructions.
-<ENDIF>
-
 
 ## Installation
 

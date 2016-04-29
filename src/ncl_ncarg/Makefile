@@ -68,9 +68,10 @@ DESCRIPTION:
 	$(MODULE_LOAD_CC); \
 	( \
 	  $(DESCRIBE_PKG); \
-          $(DESCRIBE_HDF5); \
-          $(DESCRIBE_NETCDF); \
-	  $(DESCRIBE_CC) \
+	  $(DESCRIBE_CC); \
+	  $(DESCRIBE_MPI); \
+	  $(DESCRIBE_HDF5); \
+	  $(DESCRIBE_NETCDF) \
 	) > $@
 
 LICENSE: $(SRC_DIRS)

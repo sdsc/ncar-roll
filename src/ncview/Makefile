@@ -68,8 +68,8 @@ DESCRIPTION:
 	$(MODULE_LOAD_CC); \
 	( \
 	  $(DESCRIBE_PKG); \
-	  $(DESCRIBE_CC) \
-	  $(DESCRIBE_MPI) \
+	  $(DESCRIBE_CC); \
+	  $(DESCRIBE_MPI); \
 	  $(DESCRIBE_NETCDF) \
 	) > $@
 

@@ -84,8 +84,8 @@ FCOPTIONS = -fPIC -fno-f2c -fno-second-underscore -fopenmp -fno-range-check
 EXTRAEXPORTFLAGS = -rdynamic
 ifeq ("$(COMPILERNAME)", "intel")
   CTOF = -lm -lifcore -lsvml -lifport -lirc
-  CCOPTIONS = -ansi -openmp -INCAR_CACHE/udunits/include
-  FCOPTIONS = -openmp
+  CCOPTIONS = -ansi -qopenmp -INCAR_CACHE/udunits/include
+  FCOPTIONS = -qopenmp
   EXTRAEXPORTFLAGS =
 else ifeq ("$(COMPILERNAME)", "pgi")
   CTOF = -pgf90libs

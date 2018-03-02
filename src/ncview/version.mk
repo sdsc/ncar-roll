@@ -10,7 +10,7 @@ MPINAME := $(firstword $(subst /, ,$(ROLLMPI)))
 
 NAME           = sdsc-ncview
 VERSION        = 2.1.7
-RELEASE        = 1
+RELEASE        = 2
 PKGROOT        = /opt/ncview
 
 SRC_SUBDIR     = ncview
@@ -27,6 +27,7 @@ UDUNITS_SOURCE_VERSION = 2.2.20
 UDUNITS_SOURCE_PKG     = $(UDUNITS_SOURCE_NAME)-$(UDUNITS_SOURCE_VERSION).$(UDUNITS_SOURCE_SUFFIX)
 UDUNITS_SOURCE_DIR     = $(UDUNITS_SOURCE_PKG:%.$(UDUNITS_SOURCE_SUFFIX)=%)
 
-TAR_GZ_PKGS       = $(SOURCE_PKG) $(UDUNITS_SOURCE_PKG)
+TAR_GZ_PKGS    = $(SOURCE_PKG) $(UDUNITS_SOURCE_PKG)
 
-RPM.EXTRAS     = AutoReq:No
+RPM.EXTRAS     = AutoReq:No\nAutoProv:No
+RPM.PREFIX     = $(PKGROOT)

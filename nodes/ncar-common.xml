@@ -1,6 +1,6 @@
 <?xml version="1.0" standalone="no"?>
 
-<graph>
+<kickstart>
 
 <description>
 ncl-ncarg - http://www.ncl.ucar.edu
@@ -13,18 +13,12 @@ Copyright (c) 2000 - 2017 The Regents of the University of California.
 All rights reserved. Rocks(r) v7.0 www.rocksclusters.org
 </copyright>
 
-<edge from="compute">
-  <to>ncar-common</to>
-</edge>
-<order head="compute">
-  <tail>ncar-common</tail>
-</order>
+<package>sdsc-ncl_ncarg</package>
+<package>sdsc-jasper</package>
+<package>sdsc-ncview</package>
+<package>sdsc-ncl_ncarg-modules</package>
+<package>sdsc-jasper-modules</package>
+<package>sdsc-ncview-modules</package>
+<package>sdsc-ncar-roll-test</package>
 
-<edge from="login">
-  <to>ncar-common</to>
-</edge>
-<order head="login">
-  <tail>ncar-common</tail>
-</order>
-
-</graph>
+</kickstart>

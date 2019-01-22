@@ -151,7 +151,7 @@ install::
           export PATH=`pwd`:$${PATH}; \
           $(MAKE) Everything -j 16; \
           cp -r $(NCAR_CACHE)/szip/lib/* $(ROOT)/$(PKGROOT)/lib; \
-          cp -r $(NCAR_CACHE)/cairo/lib/* $(ROOT)/$(PKGROOT)/lib; \
+          cp -r $(NCAR_CACHE)/udunits/lib/* $(ROOT)/$(PKGROOT)/lib; \
 	)
 	$(PKGROOT_BIND_UMOUNT)
 	$(INSTALL_LICENSE_FILES)

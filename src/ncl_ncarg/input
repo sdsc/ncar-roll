@@ -1,8 +1,9 @@
+
 y
 /opt/ncl_ncarg
 /tmp
 y
-y
+n
 y
 y
 n
@@ -12,8 +13,9 @@ n
 y
 n
 n
+n
 y
-y
+n
 n
 /usr/lib64/X11
 /usr/include/X11

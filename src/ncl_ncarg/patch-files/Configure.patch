@@ -1,252 +1,242 @@
---- ncl_ncarg-6.3.0/Configure	2015-03-16 14:22:17.000000000 -0700
-+++ patch-files/Configure	2016-04-02 17:26:34.935063663 -0700
-@@ -21,6 +21,7 @@
- #					build this one.
- 
- onintr cleanup
-+rm -rf ncl.answers
- 
- set cmd = $0
- set cmddir = ${cmd:h}
-@@ -89,6 +90,7 @@
+--- ncl_ncarg-6.5.0/Configure	2018-07-16 07:26:27.338511505 -0700
++++ patch-files/Configure	2019-01-21 16:25:44.334214751 -0800
+@@ -89,6 +89,7 @@
  	echo "Overwrite existing configuration? (n)"
  	echo -n "Enter Return(default), y(yes), n(no), or q(quit) > "
  	set answer="$<"
-+	echo "Overwrite existing configuration? (n) $answer" >>ncl.answers
++        echo $answer
  	if ("$answer" == "q") goto cleanup
  	if ("$answer" == "y") then
  		if ($?ncar_option) then
-@@ -202,10 +204,6 @@
- ======================================================================
- "EOF"
+@@ -206,6 +207,7 @@
  
--  echo -n "Enter Return to continue, or q(quit) > "
--  set answer="$<"
--  if ("$answer" == "q") goto cleanup
--
+   echo -n "Enter Return to continue, or q(quit) > "
+   set answer="$<"
++  echo $answer
+   if ("$answer" == "q") goto cleanup
+ 
    cat <<"EOF"
- ======================================================================
+@@ -232,6 +234,7 @@
  
-@@ -228,10 +226,6 @@
-   echo "======================================================================"
- endif
+ echo -n "Enter Return to continue, or q(quit) > "
+ set answer="$<"
++echo $answer
+ if ("$answer" == "q") goto cleanup
  
--echo -n "Enter Return to continue, or q(quit) > "
--set answer="$<"
--if ("$answer" == "q") goto cleanup
--
  
- #
- # Whether to build NCL or not.
-@@ -262,6 +256,7 @@
+@@ -264,6 +267,7 @@
    echo "Build NCL ($buildncl)?"
    echo -n "Enter Return (default), y(yes), n(no), or q(quit) > "
    set answer="$<"
-+  echo "Build NCL ? $answer" >>ncl.answers
++  echo $answer
    if ("$answer" == "q") goto cleanup
    if (("$answer" != "") && ("$answer" != "$buildncl")) then
      set buildncl = $answer
-@@ -300,6 +295,7 @@
+@@ -302,6 +306,7 @@
  echo "Parent installation directory : $parentdir"
  echo -n "Enter Return (default), new directory, or q(quit) > "
  set answer="$<"
-+echo "Parent installation directory : $answer" >>ncl.answers
++echo $answer
  if ("$answer" == "q") goto cleanup
  if ("$answer" != "") then
    set parentdir="$answer"
-@@ -312,6 +308,7 @@
+@@ -314,6 +319,7 @@
      echo "New directory name? (y)"
      echo -n "Enter Return(default), y(yes), n(no), or q(quit) > "
      set answer="$<"
-+    echo "New directory name? (y) $answer" >>ncl.answers
++    echo $answer
      if ("$answer" == "q") goto cleanup
      if ("$answer" == "y" || "$answer" == "") goto proc_parent
    endif
-@@ -331,6 +328,7 @@
+@@ -333,6 +339,7 @@
        echo "New parent directory name? (y)"
        echo -n "Enter Return(default), y(yes), n(no), or q(quit) > "
        set answer="$<"
-+      echo "New parent directory name? (y) $answer" >>ncl.answers
++      echo $answer
        if ("$answer" == "q") goto cleanup
        if ("$answer" == "y" || "$answer" == "") goto proc_parent
      endif
-@@ -363,6 +361,7 @@
+@@ -365,6 +372,7 @@
  echo "System temp space directory   : $tmpdir"
  echo -n "Enter Return (default), new directory, or q(quit) > "
  set answer="$<"
-+echo "System temp space directory   : $answer" >>ncl.answers
++echo $answer
  if ("$answer" == "q") goto cleanup
  if ("$answer" != "") then
    set tmpdir="$answer"
-@@ -376,6 +375,7 @@
+@@ -378,6 +386,7 @@
      echo "New directory name? (y)"
      echo -n "Enter Return(default), y(yes), n(no), or q(quit) > "
      set answer="$<"
-+    echo "New directory name? (y) $answer" >>ncl.answers
++    echo $answer
      if ("$answer" == "q") goto cleanup
      if ("$answer" == "y" || "$answer" == "") goto proc_tmp
    endif
-@@ -429,6 +429,7 @@
+@@ -431,6 +440,7 @@
  echo "Requires the NetCDF version 4.1.2 or later."
  echo -n "Enter Return (default), y(yes), n(no), or q(quit) > "
  set answer="$<"
-+echo "Build NetCDF4 feature support (optional)? $answer" >>ncl.answers
++echo $answer
  if ("$answer" == "q") goto cleanup
  if (("$answer" != "") && ("$answer" != "$buildnc4support")) then
  	set buildnc4support = $answer
-@@ -508,9 +509,10 @@
-   echo "http://www.hdfgroup.org/release4/obtain.html)"
-   echo "Please see the instructions at"
-   echo "http://www.ncl.ucar.edu/Download/build_from_src.shtml#HDF-4"
--  echo "to make sure your HDF software is built according to NCL requirements."
-+  echo "to make sure your HDF software is built according to NCL requirementsn."
+@@ -513,6 +523,7 @@
+   echo "to make sure your HDF software is built according to NCL requirements."
    echo -n "Enter Return (default), y(yes), n(no), or q(quit) > "
    set answer="$<"
-+  echo "Build HDF4 support (optional) into NCL? $answer" >>ncl.answers
++  echo $answer
    if ("$answer" == "q") goto cleanup
    if (("$answer" != "") && ("$answer" != "$buildhdf4")) then
        set buildhdf4 = $answer
-@@ -521,6 +523,7 @@
+@@ -523,6 +534,7 @@
    echo "Also build HDF4 support (optional) into raster library? ($buildrasterhdf)"
    echo -n "Enter Return (default), y(yes), n(no), or q(quit) > "
    set answer="$<"
-+  echo "Also build HDF4 support (optional) into raster library? $answer" >> ncl.answers
++  echo $answer
    if ("$answer" == "q") goto cleanup
    if (("$answer" != "") && ("$answer" != "$buildrasterhdf")) then
        set buildrasterhdf = $answer
-@@ -533,6 +536,7 @@
+@@ -535,6 +547,7 @@
    echo "(Requires the external HDF4 libraries available from http://www.hdfgroup.org/release4/obtain.html) "
    echo -n "Enter Return (default), y(yes), n(no), or q(quit) > "
    set answer="$<"
-+  echo "Build HDF4 support (optional) into raster library? $answer" >>ncl.answers
++  echo $answer
    if ("$answer" == "q") goto cleanup
    if (("$answer" != "") && ("$answer" != "$buildhdf4")) then
      set buildrasterhdf = $answer
-@@ -547,6 +551,7 @@
+@@ -549,6 +562,7 @@
      echo "Did you build HDF4 with szip support? ($hdfwithszip)"
      echo -n "Enter Return (default), y(yes), n(no), or q(quit) > "
      set answer="$<"
-+    echo "Did you build HDF4 with szip support? $answer" >> ncl.answers
++    echo $answer
      if ("$answer" == "q") goto cleanup
      if (("$answer" != "") && ("$answer" != "$hdfwithszip")) then
          set hdfwithszip = "$answer"
-@@ -589,6 +594,7 @@
+@@ -591,6 +605,7 @@
    echo "download these two files, and put them in ni/src/lib/hlu"
    echo -n "Enter Return (default), y(yes), n(no), or q(quit) > "
    set answer="$<"
-+  echo "Build Triangle support (optional) into NCL $answer" >>ncl.answers
++  echo $answer
    if ("$answer" == "q") goto cleanup
    if (("$answer" != "") && ("$answer" != "$buildtriangle")) then
  	set buildtriangle = $answer
-@@ -629,6 +635,7 @@
+@@ -631,6 +646,7 @@
    echo "and building with '--enable-netcdf-4') "
    echo -n "Enter Return (default), y(yes), n(no), or q(quit) > "
    set answer="$<"
-+  echo "If you are using NetCDF V4.x, did you enable NetCDF-4 support $answer" >>ncl.answers
++  echo $answer
    if ("$answer" == "q") goto cleanup
    if (("$answer" != "") && ("$answer" != "$buildnetcdf4")) then
  	set buildnetcdf4 = $answer
-@@ -663,6 +670,7 @@
+@@ -665,6 +681,7 @@
    echo "(OPeNDAP support is only available for NetCDF 4.1 or later)"
    echo -n "Enter Return (default), y(yes), n(no), or q(quit) > "
    set answer="$<"
-+  echo "Did you build NetCDF with OPeNDAP support ? $answer" >>ncl.answers
++  echo $answer
    if ("$answer" == "q") goto cleanup
    if (("$answer" != "") && ("$answer" != "$netcdfwithdap")) then
        set netcdfwithdap = "$answer"
-@@ -692,6 +700,7 @@
+@@ -694,6 +711,7 @@
    echo "http://trac.osgeo.org/proj/) "
    echo -n "Enter Return (default), y(yes), n(no), or q(quit) > "
    set answer="$<"
-+  echo "Build GDAL support (optional) into NCL? $answer" >>ncl.answers
++  echo $answer
    if ("$answer" == "q") goto cleanup
    if (("$answer" != "") && ("$answer" != "$buildgdal")) then
        set buildgdal = $answer
-@@ -721,6 +730,7 @@
+@@ -722,6 +740,7 @@
+   echo "(Requires GSL ftp://ftp.gnu.org/gnu/gsl/"
+   echo -n "Enter Return (default), y(yes), n(no), or q(quit) > "
+   set answer="$<"
++  echo $answer
+   if ("$answer" == "q") goto cleanup
+   if (("$answer" != "") && ("$answer" != "$buildeemd")) then
+       set buildeemd = $answer
+@@ -751,6 +770,7 @@
    echo "Build experimental gridspec support (optional) into NCL? ($buildgridspec)"
    echo -n "Enter Return (default), y(yes), n(no), or q(quit) > "
    set answer="$<"
-+  echo "Build experimental gridspec support (optional) into NCL? $answer" >>ncl.answers
++  echo $answer
    if ("$answer" == "q") goto cleanup
    if (("$answer" != "") && ("$answer" != "$buildgridspec")) then
        set buildgridspec = $answer
-@@ -756,6 +766,7 @@
+@@ -786,6 +806,7 @@
    echo "http://www.unidata.ucar.edu/software/udunits/udunits-2/udunits2.html) "
    echo -n "Enter Return (default), y(yes), n(no), or q(quit) > "
    set answer="$<"
-+  echo "Build Udunits-2 support (optional) into NCL $answer" >>ncl.answers
++  echo $answer
    if ("$answer" == "q") goto cleanup
    if (("$answer" != "") && ("$answer" != "$buildudunits")) then
  	set buildudunits = $answer
-@@ -789,6 +800,7 @@
+@@ -819,6 +840,7 @@
    echo "http://vis5d.sourceforge.net/) "
    echo -n "Enter Return (default), y(yes), n(no), or q(quit) > "
    set answer="$<"
-+  echo "Build Vis5d+ support (optional) into NCL $answer" >>ncl.answers
++  echo $answer
    if ("$answer" == "q") goto cleanup
    if (("$answer" != "") && ("$answer" != "$buildv5d")) then
  	set buildv5d = $answer
-@@ -822,6 +834,7 @@
+@@ -852,6 +874,7 @@
    echo "must also have included support for HDF4.) "
    echo -n "Enter Return (default), y(yes), n(no), or q(quit) > "
    set answer="$<"
-+  echo "Build HDF-EOS2 support (optional) into NCL $answer" >>ncl.answers
++  echo $answer
    if ("$answer" == "q") goto cleanup
    if (("$answer" != "") && ("$answer" != "$buildhdfeos")) then
    	set buildhdfeos = $answer
-@@ -854,6 +867,7 @@
+@@ -884,6 +907,7 @@
    echo "http://www.hdfgroup.org/ftp/HDF5/current/src/ "
    echo -n "Enter Return (default), y(yes), n(no), or q(quit) > "
    set answer="$<"
-+  echo "Build HDF5 support (optional) into NCL $answer" >>ncl.answers
++  echo $answer
    if ("$answer" == "q") goto cleanup
    if (("$answer" != "") && ("$answer" != "$buildhdf5")) then
    	set buildhdf5 = $answer
-@@ -885,6 +899,7 @@
+@@ -915,6 +939,7 @@
    echo "ftp://edhs1.gsfc.nasa.gov/pub)"
    echo -n "Enter Return (default), y(yes), n(no), or q(quit) > "
    set answer="$<"
-+  echo "Build HDF-EOS5 support (optional) into NCL $answer" >>ncl.answers
++  echo $answer
    if ("$answer" == "q") goto cleanup
    if (("$answer" != "") && ("$answer" != "$buildhdfeos5")) then
    	set buildhdfeos5 = $answer
-@@ -915,6 +930,7 @@
+@@ -945,6 +970,7 @@
    echo "http://www.ece.uvic.ca/~mdadams/jasper/) "
    echo -n "Enter Return (default), y(yes), n(no), or q(quit) > "
    set answer="$<"
-+  echo "Build GRIB2 support (optional) into NCL $answer" >>ncl.answers
++  echo $answer
    if ("$answer" == "q") goto cleanup
    if (("$answer" != "") && ("$answer" != "$buildgrib2")) then
    	set buildgrib2 = $answer
-@@ -1073,6 +1089,7 @@
+@@ -1103,6 +1129,7 @@
  echo "Enter local library search path(s) : $loclibdir"
  echo -n "Enter Return (default), new directories, or q(quit) > "
  set answer="$<"
-+echo "Enter local library search path(s) : $answer" >>ncl.answers
++echo $answer
  
  if ("$answer" == "q") goto cleanup
  if ("$answer" != "") then
-@@ -1124,6 +1141,7 @@
+@@ -1154,6 +1181,7 @@
  echo "Enter local include search path(s) : $locincdir"
  echo -n "Enter Return (default), new directories, or q(quit) > "
  set answer="$<"
-+echo "Enter local include search path(s) : $answer" >>ncl.answers
++echo $answer
  if ("$answer" == "q") goto cleanup
  if ("$answer" != "") then
    set locincdir = "$answer"
-@@ -1164,6 +1182,7 @@
+@@ -1194,6 +1222,7 @@
  echo "Go back and make more changes or review? (n) "
  echo -n "Enter Return(default), y(yes), n(no), or q(quit) > "
  set answer="$<"
-+echo "Go back and make more changes or review? (n) $answer" >>ncl.answers
++echo $answer
  if ("$answer" == "q") goto cleanup
  if ("$answer" == "y") goto QuestionAndAnswer
  
-@@ -1176,6 +1195,7 @@
+@@ -1206,6 +1235,7 @@
  echo "Save current configuration ? (y) "
  echo -n "Enter Return(default), y(yes), or q(quit) > "
  set answer="$<"
-+echo "Save current configuration ? (y) $answer" >>ncl.answers
++echo $answer
  if ("$answer" == "q") goto cleanup
  
  if ("$answer" != "y" && "$answer" != "") then

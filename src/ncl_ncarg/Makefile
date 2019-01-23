@@ -70,7 +70,6 @@ DESCRIPTION:
 	  $(DESCRIBE_PKG); \
 	  $(DESCRIBE_CC); \
 	  $(DESCRIBE_MPI); \
-	  $(DESCRIBE_HDF4); \
 	  $(DESCRIBE_HDF5); \
 	  $(DESCRIBE_NETCDF) \
 	) > $@
@@ -104,7 +103,6 @@ build: $(SRC_DIRS)
 	( \
 	  $(MODULE_LOAD_CC); \
           $(MODULE_LOAD_MPI); \
-	  $(MODULE_LOAD_HDF4); \
 	  $(MODULE_LOAD_HDF5); \
 	  $(MODULE_LOAD_NETCDF); \
           module load gsl; \
@@ -112,11 +110,7 @@ build: $(SRC_DIRS)
           export CXX=$(CXX); \
           export FC=$(FC); \
           export F77=$(FC); \
-          cd $(SZIP_SOURCE_DIR); \
-          ./configure --prefix=$(NCAR_CACHE)/szip; \
-          $(MAKE) -j 16; \
-          $(MAKE) install; \
-          cd ../$(SOURCE_DIR)/config; \
+          cd $(SOURCE_DIR)/config; \
           $(MAKE) -j 16 -f Makefile.ini; \
           cd ..; \
           perl -pi -e "s!CTOF!$(CTOF)!g" config/LINUX; \

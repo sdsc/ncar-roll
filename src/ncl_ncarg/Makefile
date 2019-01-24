@@ -110,7 +110,11 @@ build: $(SRC_DIRS)
           export CXX=$(CXX); \
           export FC=$(FC); \
           export F77=$(FC); \
-          cd $(SOURCE_DIR)/config; \
+          cd $(SZIP_SOURCE_DIR); \
+          ./configure --prefix=$(NCAR_CACHE)/szip; \
+          make; \
+          make install; \
+          cd ../$(SOURCE_DIR)/config; \
           $(MAKE) -j 16 -f Makefile.ini; \
           cd ..; \
           perl -pi -e "s!CTOF!$(CTOF)!g" config/LINUX; \
@@ -143,7 +147,7 @@ install::
           export CXX=$(CXX); \
 	  cd $(SOURCE_DIR); \
           export PATH=`pwd`:$${PATH}; \
-          $(MAKE) Everything -j 16; \
+          $(MAKE) Everything; \
           cp -r $(NCAR_CACHE)/szip/lib/* $(ROOT)/$(PKGROOT)/lib; \
           cp -r $(NCAR_CACHE)/udunits/lib/* $(ROOT)/$(PKGROOT)/lib; \
 	)

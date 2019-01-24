@@ -1,242 +1,280 @@
 --- ncl_ncarg-6.5.0/Configure	2018-07-16 07:26:27.338511505 -0700
-+++ patch-files/Configure	2019-01-21 16:25:44.334214751 -0800
-@@ -89,6 +89,7 @@
++++ patch-files/Configure	2019-01-23 14:43:10.242699988 -0800
+@@ -21,6 +21,7 @@
+ #					build this one.
+ 
+ onintr cleanup
++set linecount = 0
+ 
+ set cmd = $0
+ set cmddir = ${cmd:h}
+@@ -89,6 +90,8 @@
  	echo "Overwrite existing configuration? (n)"
  	echo -n "Enter Return(default), y(yes), n(no), or q(quit) > "
  	set answer="$<"
-+        echo $answer
++        @ linecount = $linecount + 1
++        echo "${linecount}: $answer"
  	if ("$answer" == "q") goto cleanup
  	if ("$answer" == "y") then
  		if ($?ncar_option) then
-@@ -206,6 +207,7 @@
+@@ -206,6 +209,8 @@
  
    echo -n "Enter Return to continue, or q(quit) > "
    set answer="$<"
-+  echo $answer
++  @ linecount = $linecount + 1
++  echo "${linecount}: $answer"
    if ("$answer" == "q") goto cleanup
  
    cat <<"EOF"
-@@ -232,6 +234,7 @@
+@@ -232,6 +237,8 @@
  
  echo -n "Enter Return to continue, or q(quit) > "
  set answer="$<"
-+echo $answer
++@ linecount = $linecount + 1
++echo "${linecount}: $answer"
  if ("$answer" == "q") goto cleanup
  
  
-@@ -264,6 +267,7 @@
+@@ -264,6 +271,8 @@
    echo "Build NCL ($buildncl)?"
    echo -n "Enter Return (default), y(yes), n(no), or q(quit) > "
    set answer="$<"
-+  echo $answer
++  @ linecount = $linecount + 1
++  echo "${linecount}: $answer"
    if ("$answer" == "q") goto cleanup
    if (("$answer" != "") && ("$answer" != "$buildncl")) then
      set buildncl = $answer
-@@ -302,6 +306,7 @@
+@@ -302,6 +311,8 @@
  echo "Parent installation directory : $parentdir"
  echo -n "Enter Return (default), new directory, or q(quit) > "
  set answer="$<"
-+echo $answer
++@ linecount = $linecount + 1
++echo "${linecount}: $answer"
  if ("$answer" == "q") goto cleanup
  if ("$answer" != "") then
    set parentdir="$answer"
-@@ -314,6 +319,7 @@
+@@ -314,6 +325,8 @@
      echo "New directory name? (y)"
      echo -n "Enter Return(default), y(yes), n(no), or q(quit) > "
      set answer="$<"
-+    echo $answer
++    @ linecount = $linecount + 1
++    echo "${linecount}: $answer"
      if ("$answer" == "q") goto cleanup
      if ("$answer" == "y" || "$answer" == "") goto proc_parent
    endif
-@@ -333,6 +339,7 @@
+@@ -333,6 +346,8 @@
        echo "New parent directory name? (y)"
        echo -n "Enter Return(default), y(yes), n(no), or q(quit) > "
        set answer="$<"
-+      echo $answer
++      @ linecount = $linecount + 1
++      echo "${linecount}: $answer"
        if ("$answer" == "q") goto cleanup
        if ("$answer" == "y" || "$answer" == "") goto proc_parent
      endif
-@@ -365,6 +372,7 @@
+@@ -365,6 +380,8 @@
  echo "System temp space directory   : $tmpdir"
  echo -n "Enter Return (default), new directory, or q(quit) > "
  set answer="$<"
-+echo $answer
++@ linecount = $linecount + 1
++echo "${linecount}: $answer"
  if ("$answer" == "q") goto cleanup
  if ("$answer" != "") then
    set tmpdir="$answer"
-@@ -378,6 +386,7 @@
+@@ -378,6 +395,8 @@
      echo "New directory name? (y)"
      echo -n "Enter Return(default), y(yes), n(no), or q(quit) > "
      set answer="$<"
-+    echo $answer
++    @ linecount = $linecount + 1
++    echo "${linecount}: $answer"
      if ("$answer" == "q") goto cleanup
      if ("$answer" == "y" || "$answer" == "") goto proc_tmp
    endif
-@@ -431,6 +440,7 @@
+@@ -431,6 +450,8 @@
  echo "Requires the NetCDF version 4.1.2 or later."
  echo -n "Enter Return (default), y(yes), n(no), or q(quit) > "
  set answer="$<"
-+echo $answer
++@ linecount = $linecount + 1
++echo "${linecount}: $answer"
  if ("$answer" == "q") goto cleanup
  if (("$answer" != "") && ("$answer" != "$buildnc4support")) then
  	set buildnc4support = $answer
-@@ -513,6 +523,7 @@
+@@ -513,6 +534,8 @@
    echo "to make sure your HDF software is built according to NCL requirements."
    echo -n "Enter Return (default), y(yes), n(no), or q(quit) > "
    set answer="$<"
-+  echo $answer
++  @ linecount = $linecount + 1
++  echo "${linecount}: $answer"
    if ("$answer" == "q") goto cleanup
    if (("$answer" != "") && ("$answer" != "$buildhdf4")) then
        set buildhdf4 = $answer
-@@ -523,6 +534,7 @@
+@@ -523,6 +546,8 @@
    echo "Also build HDF4 support (optional) into raster library? ($buildrasterhdf)"
    echo -n "Enter Return (default), y(yes), n(no), or q(quit) > "
    set answer="$<"
-+  echo $answer
++  @ linecount = $linecount + 1
++  echo "${linecount}: $answer"
    if ("$answer" == "q") goto cleanup
    if (("$answer" != "") && ("$answer" != "$buildrasterhdf")) then
        set buildrasterhdf = $answer
-@@ -535,6 +547,7 @@
+@@ -535,6 +560,8 @@
    echo "(Requires the external HDF4 libraries available from http://www.hdfgroup.org/release4/obtain.html) "
    echo -n "Enter Return (default), y(yes), n(no), or q(quit) > "
    set answer="$<"
-+  echo $answer
++  @ linecount = $linecount + 1
++  echo "${linecount}: $answer"
    if ("$answer" == "q") goto cleanup
    if (("$answer" != "") && ("$answer" != "$buildhdf4")) then
      set buildrasterhdf = $answer
-@@ -549,6 +562,7 @@
+@@ -549,6 +576,8 @@
      echo "Did you build HDF4 with szip support? ($hdfwithszip)"
      echo -n "Enter Return (default), y(yes), n(no), or q(quit) > "
      set answer="$<"
-+    echo $answer
++    @ linecount = $linecount + 1
++    echo "${linecount}: $answer"
      if ("$answer" == "q") goto cleanup
      if (("$answer" != "") && ("$answer" != "$hdfwithszip")) then
          set hdfwithszip = "$answer"
-@@ -591,6 +605,7 @@
+@@ -591,6 +620,8 @@
    echo "download these two files, and put them in ni/src/lib/hlu"
    echo -n "Enter Return (default), y(yes), n(no), or q(quit) > "
    set answer="$<"
-+  echo $answer
++  @ linecount = $linecount + 1
++  echo "${linecount}: $answer"
    if ("$answer" == "q") goto cleanup
    if (("$answer" != "") && ("$answer" != "$buildtriangle")) then
  	set buildtriangle = $answer
-@@ -631,6 +646,7 @@
+@@ -631,6 +662,8 @@
    echo "and building with '--enable-netcdf-4') "
    echo -n "Enter Return (default), y(yes), n(no), or q(quit) > "
    set answer="$<"
-+  echo $answer
++  @ linecount = $linecount + 1
++  echo "${linecount}: $answer"
    if ("$answer" == "q") goto cleanup
    if (("$answer" != "") && ("$answer" != "$buildnetcdf4")) then
  	set buildnetcdf4 = $answer
-@@ -665,6 +681,7 @@
+@@ -665,6 +698,8 @@
    echo "(OPeNDAP support is only available for NetCDF 4.1 or later)"
    echo -n "Enter Return (default), y(yes), n(no), or q(quit) > "
    set answer="$<"
-+  echo $answer
++  @ linecount = $linecount + 1
++  echo "${linecount}: $answer"
    if ("$answer" == "q") goto cleanup
    if (("$answer" != "") && ("$answer" != "$netcdfwithdap")) then
        set netcdfwithdap = "$answer"
-@@ -694,6 +711,7 @@
+@@ -694,6 +729,8 @@
    echo "http://trac.osgeo.org/proj/) "
    echo -n "Enter Return (default), y(yes), n(no), or q(quit) > "
    set answer="$<"
-+  echo $answer
++  @ linecount = $linecount + 1
++  echo "${linecount}: $answer"
    if ("$answer" == "q") goto cleanup
    if (("$answer" != "") && ("$answer" != "$buildgdal")) then
        set buildgdal = $answer
-@@ -722,6 +740,7 @@
+@@ -722,6 +759,8 @@
    echo "(Requires GSL ftp://ftp.gnu.org/gnu/gsl/"
    echo -n "Enter Return (default), y(yes), n(no), or q(quit) > "
    set answer="$<"
-+  echo $answer
++  @ linecount = $linecount + 1
++  echo "${linecount}: $answer"
    if ("$answer" == "q") goto cleanup
    if (("$answer" != "") && ("$answer" != "$buildeemd")) then
        set buildeemd = $answer
-@@ -751,6 +770,7 @@
+@@ -751,6 +790,8 @@
    echo "Build experimental gridspec support (optional) into NCL? ($buildgridspec)"
    echo -n "Enter Return (default), y(yes), n(no), or q(quit) > "
    set answer="$<"
-+  echo $answer
++  @ linecount = $linecount + 1
++  echo "${linecount}: $answer"
    if ("$answer" == "q") goto cleanup
    if (("$answer" != "") && ("$answer" != "$buildgridspec")) then
        set buildgridspec = $answer
-@@ -786,6 +806,7 @@
+@@ -786,6 +827,8 @@
    echo "http://www.unidata.ucar.edu/software/udunits/udunits-2/udunits2.html) "
    echo -n "Enter Return (default), y(yes), n(no), or q(quit) > "
    set answer="$<"
-+  echo $answer
++  @ linecount = $linecount + 1
++  echo "${linecount}: $answer"
    if ("$answer" == "q") goto cleanup
    if (("$answer" != "") && ("$answer" != "$buildudunits")) then
  	set buildudunits = $answer
-@@ -819,6 +840,7 @@
+@@ -819,6 +862,8 @@
    echo "http://vis5d.sourceforge.net/) "
    echo -n "Enter Return (default), y(yes), n(no), or q(quit) > "
    set answer="$<"
-+  echo $answer
++  @ linecount = $linecount + 1
++  echo "${linecount}: $answer"
    if ("$answer" == "q") goto cleanup
    if (("$answer" != "") && ("$answer" != "$buildv5d")) then
  	set buildv5d = $answer
-@@ -852,6 +874,7 @@
+@@ -852,6 +897,8 @@
    echo "must also have included support for HDF4.) "
    echo -n "Enter Return (default), y(yes), n(no), or q(quit) > "
    set answer="$<"
-+  echo $answer
++  @ linecount = $linecount + 1
++  echo "${linecount}: $answer"
    if ("$answer" == "q") goto cleanup
    if (("$answer" != "") && ("$answer" != "$buildhdfeos")) then
    	set buildhdfeos = $answer
-@@ -884,6 +907,7 @@
+@@ -884,6 +931,8 @@
    echo "http://www.hdfgroup.org/ftp/HDF5/current/src/ "
    echo -n "Enter Return (default), y(yes), n(no), or q(quit) > "
    set answer="$<"
-+  echo $answer
++  @ linecount = $linecount + 1
++  echo "${linecount}: $answer"
    if ("$answer" == "q") goto cleanup
    if (("$answer" != "") && ("$answer" != "$buildhdf5")) then
    	set buildhdf5 = $answer
-@@ -915,6 +939,7 @@
+@@ -915,6 +964,8 @@
    echo "ftp://edhs1.gsfc.nasa.gov/pub)"
    echo -n "Enter Return (default), y(yes), n(no), or q(quit) > "
    set answer="$<"
-+  echo $answer
++  @ linecount = $linecount + 1
++  echo "${linecount}: $answer"
    if ("$answer" == "q") goto cleanup
    if (("$answer" != "") && ("$answer" != "$buildhdfeos5")) then
    	set buildhdfeos5 = $answer
-@@ -945,6 +970,7 @@
+@@ -945,6 +996,8 @@
    echo "http://www.ece.uvic.ca/~mdadams/jasper/) "
    echo -n "Enter Return (default), y(yes), n(no), or q(quit) > "
    set answer="$<"
-+  echo $answer
++  @ linecount = $linecount + 1
++  echo "${linecount}: $answer"
    if ("$answer" == "q") goto cleanup
    if (("$answer" != "") && ("$answer" != "$buildgrib2")) then
    	set buildgrib2 = $answer
-@@ -1103,6 +1129,7 @@
+@@ -1103,6 +1156,8 @@
  echo "Enter local library search path(s) : $loclibdir"
  echo -n "Enter Return (default), new directories, or q(quit) > "
  set answer="$<"
-+echo $answer
++@ linecount = $linecount + 1
++echo "${linecount}: $answer"
  
  if ("$answer" == "q") goto cleanup
  if ("$answer" != "") then
-@@ -1154,6 +1181,7 @@
+@@ -1154,6 +1209,8 @@
  echo "Enter local include search path(s) : $locincdir"
  echo -n "Enter Return (default), new directories, or q(quit) > "
  set answer="$<"
-+echo $answer
++@ linecount = $linecount + 1
++echo "${linecount}: $answer"
  if ("$answer" == "q") goto cleanup
  if ("$answer" != "") then
    set locincdir = "$answer"
-@@ -1194,6 +1222,7 @@
+@@ -1194,6 +1251,8 @@
  echo "Go back and make more changes or review? (n) "
  echo -n "Enter Return(default), y(yes), n(no), or q(quit) > "
  set answer="$<"
-+echo $answer
++@ linecount = $linecount + 1
++echo "${linecount}: $answer"
  if ("$answer" == "q") goto cleanup
  if ("$answer" == "y") goto QuestionAndAnswer
  
-@@ -1206,6 +1235,7 @@
+@@ -1206,6 +1265,8 @@
  echo "Save current configuration ? (y) "
  echo -n "Enter Return(default), y(yes), or q(quit) > "
  set answer="$<"
-+echo $answer
++@ linecount = $linecount + 1
++echo "${linecount}: $answer"
  if ("$answer" == "q") goto cleanup
  
  if ("$answer" != "y" && "$answer" != "") then

@@ -1,0 +1,32 @@
+--- ncl_ncarg-6.5.0/ni/src/ncl/subprocess.c	2018-07-16 07:26:36.438492000 -0700
++++ patch-files/subprocess.c	2019-01-18 17:40:09.594115577 -0800
+@@ -164,8 +164,9 @@
+ static void addSubProc(int pid) {
+    
+     /* look for a free entry in the process table... */
++    int i;
+     int index = -1;
+-    for (int i=0; i<subprocTabSize; i++) {
++    for (i=0; i<subprocTabSize; i++) {
+         if (subprocTab[i].pid < 0) {
+             index = i;
+             break;
+@@ -181,7 +182,7 @@
+             return;
+         }
+         subprocTab = newTable;
+-        for (int i=subprocTabSize; i < (subprocTabSize + SUBPROC_TAB_GROW); i++) {
++        for (i=subprocTabSize; i < (subprocTabSize + SUBPROC_TAB_GROW); i++) {
+             subprocTab[i].pid = -1;
+         }
+         index = subprocTabSize;
+@@ -199,7 +200,8 @@
+  * 
+  */
+ static void removeSubProc(int pid) {
+-    for (int i=0; i<subprocTabSize; i++) {
++    int i;
++    for (i=0; i<subprocTabSize; i++) {
+         if (subprocTab[i].pid == pid) {
+             subprocTab[i].pid = -1;
+             return;

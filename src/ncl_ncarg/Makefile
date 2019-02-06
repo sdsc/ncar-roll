@@ -79,12 +79,12 @@ LICENSE: $(SRC_DIRS)
 	echo NCL > $@
 
 CTOF = -LGCCHOME/gcc/lib64 -lgfortran
-CCOPTIONS = -ansi -fPIC -fopenmp -I$(NCAR_CACHE)/udunits/include
+CCOPTIONS = -fPIC -fopenmp -I$(NCAR_CACHE)/udunits/include
 FCOPTIONS = -fPIC -fno-f2c -fno-second-underscore -fopenmp -fno-range-check
 EXTRAEXPORTFLAGS = -rdynamic
 ifeq ("$(COMPILERNAME)", "intel")
   CTOF = -lm -lifcore -lsvml -lifport -lirc
-  CCOPTIONS = -ansi -qopenmp -INCAR_CACHE/udunits/include
+  CCOPTIONS = -qopenmp -INCAR_CACHE/udunits/include
   FCOPTIONS = -qopenmp
   EXTRAEXPORTFLAGS =
 else ifeq ("$(COMPILERNAME)", "pgi")
@@ -96,15 +96,16 @@ endif
 
 build: $(SRC_DIRS)
 	mkdir -p $(NCAR_CACHE)
-	patch $(SOURCE_DIR)/Configure patch-files/Configure.patch
 	patch $(SOURCE_DIR)/config/LINUX patch-files/LINUX.patch
-	patch $(HDFEOS5_SOURCE_DIR)/src/EHapi.c patch-files/EHapi.c.patch
+	patch $(SOURCE_DIR)/ni/src/ncl/subprocess.c patch-files/subprocess.c.patch
+	patch $(SOURCE_DIR)/Configure patch-files/Configure.patch
 	cp input $(SOURCE_DIR)
 	( \
 	  $(MODULE_LOAD_CC); \
           $(MODULE_LOAD_MPI); \
 	  $(MODULE_LOAD_HDF5); \
 	  $(MODULE_LOAD_NETCDF); \
+          module load gsl; \
           export CC=$(CC); \
           export CXX=$(CXX); \
           export FC=$(FC); \
@@ -113,41 +114,8 @@ build: $(SRC_DIRS)
           ./configure --prefix=$(NCAR_CACHE)/szip; \
           make; \
           make install; \
-          cd ..; \
-          cd $(CAIRO_SOURCE_DIR); \
-          ./configure --prefix=$(NCAR_CACHE)/cairo; \
-          if test "$(COMPILERNAME)" = "intel"; then \
-                cd test; \
-                sed 's/$$(LDFLAGS)/$$(LDFLAGS) -lirc/' Makefile >>$$$$.tmp; \
-                mv $$$$.tmp Makefile; \
-                cd ..; \
-          fi; \
-          make; \
-          make install; \
-          cd ..; \
-          cd $(ZLIB_SOURCE_DIR); \
-          ./configure --prefix=$(NCAR_CACHE)/zlib; \
-          make; \
-          make install; \
-          cd .. ; \
-          cd $(HDF4_SOURCE_DIR); \
-	  ./configure \
-	    --prefix=$(NCAR_CACHE)/hdf4 \
-	    --enable-fortran --disable-netcdf --enable-production --disable-shared \
-	    --enable-static --with-zlib=$(NCAR_CACHE)/zlib --with-szlib=$(NCAR_CACHE)/szip; \
-          make; \
-          make install; \
-          cd ..; \
-          cd $(HDFEOS5_SOURCE_DIR); \
-          export CC=h5pcc; \
-          ./configure --prefix=$(NCAR_CACHE)/hdfeos5 --with-hdf5=$${HDF5HOME} --with-zlib=$(NCAR_CACHE)/zlib; \
-          make; \
-          make install; \
-          mkdir -p $(NCAR_CACHE)/hdfeos5/include; \
-          cp -r include/* $(NCAR_CACHE)/hdfeos5/include; \
-          export CC=$(CC); \
           cd ../$(SOURCE_DIR)/config; \
-          make -f Makefile.ini; \
+          $(MAKE) -j 16 -f Makefile.ini; \
           cd ..; \
           perl -pi -e "s!CTOF!$(CTOF)!g" config/LINUX; \
           perl -pi -e "s!CCOPTIONS!$(CCOPTIONS)!g" config/LINUX; \
@@ -156,13 +124,12 @@ build: $(SRC_DIRS)
           perl -pi -e "s!FCOMPILER!$(FC)!g" config/LINUX; \
           perl -pi -e "s!HDF5HOME!$${HDF5HOME}!g" config/LINUX; \
           perl -pi -e "s!NETCDFHOME!$${NETCDFHOME}!g" config/LINUX; \
-          perl -pi -e "s!HDF4HOME!$(NCAR_CACHE)/hdf4!g" config/LINUX; \
           perl -pi -e "s!MPIHOME!$${MPIHOME}!g" config/LINUX; \
           perl -pi -e "s!NCAR_CACHE!$(NCAR_CACHE)!g" config/LINUX; \
           perl -pi -e "s!EXTRAEXPORTFLAGS!$(EXTRAEXPORTFLAGS)!g" config/LINUX; \
           perl -pi -e "s!GCCHOME!$${GCCHOME}!g" config/LINUX; \
-          perl -pi -e "s!HDFEOS5!$(NCAR_CACHE)/hdfeos5!g" config/LINUX; \
-          perl -pi -e "s!NCAR_CACHE!$(NCAR_CACHE)!g" input; \
+          perl -pi -e "s!GSLHOME!$${GSLHOME}!g" config/LINUX; \
+          perl -pi -e "s!HOMEROOT!$(PWD)!g" config/LINUX; \
           ./Configure < input \
 	)
 	@echo "::: Package $(NAME) build complete :::"
@@ -175,15 +142,14 @@ install::
           $(MODULE_LOAD_MPI); \
 	  $(MODULE_LOAD_HDF5); \
 	  $(MODULE_LOAD_NETCDF); \
+          module load gsl; \
           export CC=$(CC); \
           export CXX=$(CXX); \
 	  cd $(SOURCE_DIR); \
           export PATH=`pwd`:$${PATH}; \
-          make Everything; \
+          $(MAKE) Everything; \
           cp -r $(NCAR_CACHE)/szip/lib/* $(ROOT)/$(PKGROOT)/lib; \
-          cp -r $(NCAR_CACHE)/cairo/lib/* $(ROOT)/$(PKGROOT)/lib; \
-          cp -r $(NCAR_CACHE)/hdf4/lib/* $(ROOT)/$(PKGROOT)/lib; \
-          cp -r $(NCAR_CACHE)/hdfeos5/lib/* $(ROOT)/$(PKGROOT)/lib; \
+          cp -r $(NCAR_CACHE)/udunits/lib/* $(ROOT)/$(PKGROOT)/lib; \
 	)
 	$(PKGROOT_BIND_UMOUNT)
 	$(INSTALL_LICENSE_FILES)

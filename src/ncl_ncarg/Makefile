@@ -105,7 +105,6 @@ build: $(SRC_DIRS)
           $(MODULE_LOAD_MPI); \
 	  $(MODULE_LOAD_HDF5); \
 	  $(MODULE_LOAD_NETCDF); \
-          module load gsl; \
           export CC=$(CC); \
           export CXX=$(CXX); \
           export FC=$(FC); \
@@ -128,7 +127,6 @@ build: $(SRC_DIRS)
           perl -pi -e "s!NCAR_CACHE!$(NCAR_CACHE)!g" config/LINUX; \
           perl -pi -e "s!EXTRAEXPORTFLAGS!$(EXTRAEXPORTFLAGS)!g" config/LINUX; \
           perl -pi -e "s!GCCHOME!$${GCCHOME}!g" config/LINUX; \
-          perl -pi -e "s!GSLHOME!$${GSLHOME}!g" config/LINUX; \
           perl -pi -e "s!HOMEROOT!$(PWD)!g" config/LINUX; \
           ./Configure < input \
 	)
@@ -142,7 +140,6 @@ install::
           $(MODULE_LOAD_MPI); \
 	  $(MODULE_LOAD_HDF5); \
 	  $(MODULE_LOAD_NETCDF); \
-          module load gsl; \
           export CC=$(CC); \
           export CXX=$(CXX); \
 	  cd $(SOURCE_DIR); \

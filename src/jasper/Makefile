@@ -67,7 +67,7 @@ DESCRIPTION:
 	$(MODULE_LOAD_CC); \
 	( \
 	  $(DESCRIBE_PKG); \
-	  $(DESCRIBE_CC) \
+	  $(DESCRIBE_CC); \
 	) > $@
 
 LICENSE: $(SRC_DIRS)
@@ -77,9 +77,10 @@ LICENSE: $(SRC_DIRS)
 build: $(SRC_DIRS)
 	( \
 	  $(MODULE_LOAD_CC); \
-	  cd $(SOURCE_DIR); \
-	  ./configure CC=$(CC) --enable-shared --with-glut-include-dir=/usr/include  --with-glut-lib-dir=/usr/lib64 --prefix=$(PKGROOT); \
-	  $(MAKE); \
+          $(MODULE_LOAD_CMAKE); \
+	  cd $(SOURCE_DIR)/build; \
+          cmake -DCMAKE_INSTALL_PREFIX=$(PKGROOT) -DCMAKE_C_COMPILER=$(CC)  ..; \
+	  $(MAKE) \
 	)
 	@echo "::: Package $(NAME) build complete :::"
 	
@@ -87,7 +88,7 @@ install::
 	mkdir -p $(ROOT)/$(PKGROOT)
 	$(PKGROOT_BIND_MOUNT)
 	( \
-	  cd $(SOURCE_DIR); \
+	  cd $(SOURCE_DIR)/build; \
 	  $(MAKE) install; \
 	)
 	$(PKGROOT_BIND_UMOUNT)

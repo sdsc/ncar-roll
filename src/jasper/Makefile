@@ -77,9 +77,9 @@ LICENSE: $(SRC_DIRS)
 build: $(SRC_DIRS)
 	( \
 	  $(MODULE_LOAD_CC); \
-          $(MODULE_LOAD_CMAKE); \
+	  $(MODULE_LOAD_CMAKE); \
 	  cd $(SOURCE_DIR)/build; \
-          cmake -DCMAKE_INSTALL_PREFIX=$(PKGROOT) -DCMAKE_C_COMPILER=$(CC)  ..; \
+	  cmake -DCMAKE_INSTALL_PREFIX=$(PKGROOT) -DCMAKE_C_COMPILER=$(CC)  ..; \
 	  $(MAKE) \
 	)
 	@echo "::: Package $(NAME) build complete :::"

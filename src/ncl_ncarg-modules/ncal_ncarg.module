@@ -7,4 +7,4 @@ setenv NCARG_ROOT /opt/ncl_ncarg
 prepend-path PATH /opt/ncl_ncarg/bin
 prepend-path LD_LIBRARY_PATH /opt/ncl_ncarg/lib
 prepend-path LD_LIBRARY_PATH /opt/ncview/lib
-module load ROLLCOMPILER ROLLMPI hdf5 netcdf gsl
+module load ROLLCOMPILER ROLLMPI hdf5 netcdf

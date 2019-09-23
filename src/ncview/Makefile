@@ -79,6 +79,7 @@ LICENSE: $(SRC_DIRS)
 
 build: $(SRC_DIRS)
 	( \
+          $(call MODULE_LOAD_COMPILER,'gnu','gcc'); \
 	  $(MODULE_LOAD_CC); \
 	  $(MODULE_LOAD_MPI); \
 	  $(MODULE_LOAD_NETCDF); \
@@ -91,7 +92,7 @@ build: $(SRC_DIRS)
 	  export CPPFLAGS=-I$(NCAR_CACHE)/udunits/include;  \
 	  export LDFLAGS=-L$(NCAR_CACHE)/udunits/lib;  \
 	  ./configure CC=mpicc --prefix=$(PKGROOT) --with-x --with-nc-config=$${NETCDFHOME}/bin/nc-config; \
-	  make \
+	  make -j 16 \
 	)
 	@echo "::: Package $(NAME) build complete :::"
 
@@ -99,6 +100,7 @@ install::
 	mkdir -p $(ROOT)/$(PKGROOT)
 	$(PKGROOT_BIND_MOUNT)
 	( \
+            $(call MODULE_LOAD_COMPILER,'gnu','gcc'); \
             cd $(SOURCE_DIR); \
             make install; \
         )

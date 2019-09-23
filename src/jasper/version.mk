@@ -5,7 +5,7 @@ COMPILERNAME := $(firstword $(subst /, ,$(ROLLCOMPILER)))
 
 NAME           = sdsc-jasper
 VERSION        = 2.0.14
-RELEASE        = 0
+RELEASE        = 1
 PKGROOT        = /opt/jasper
 
 SRC_SUBDIR     = jasper

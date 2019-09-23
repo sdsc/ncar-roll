@@ -7,4 +7,4 @@ setenv NCVIEWHOME /opt/ncl_ncarg
 prepend-path PATH /opt/ncview/bin
 prepend-path LD_LIBRARY_PATH /opt/ncview/lib
 setenv UDUNITS2_XML_PATH /opt/ncview/share/udunits/udunits2.xml
-module load ROLLCOMPILER ROLLMPI netcdf
+module load gnu ROLLCOMPILER ROLLMPI netcdf

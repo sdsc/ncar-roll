@@ -10,7 +10,7 @@ MPINAME := $(firstword $(subst /, ,$(ROLLMPI)))
 
 NAME           = sdsc-ncview
 VERSION        = 2.1.7
-RELEASE        = 2
+RELEASE        = 3
 PKGROOT        = /opt/ncview
 
 SRC_SUBDIR     = ncview

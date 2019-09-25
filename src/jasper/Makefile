@@ -76,11 +76,12 @@ LICENSE: $(SRC_DIRS)
 
 build: $(SRC_DIRS)
 	( \
+          $(call MODULE_LOAD_COMPILER,'gnu','gcc'); \
 	  $(MODULE_LOAD_CC); \
 	  $(MODULE_LOAD_CMAKE); \
 	  cd $(SOURCE_DIR)/build; \
 	  cmake -DCMAKE_INSTALL_PREFIX=$(PKGROOT) -DCMAKE_C_COMPILER=$(CC)  ..; \
-	  $(MAKE) \
+	  $(MAKE) -j 16 \
 	)
 	@echo "::: Package $(NAME) build complete :::"
 	
@@ -88,6 +89,7 @@ install::
 	mkdir -p $(ROOT)/$(PKGROOT)
 	$(PKGROOT_BIND_MOUNT)
 	( \
+          $(call MODULE_LOAD_COMPILER,'gnu','gcc'); \
 	  cd $(SOURCE_DIR)/build; \
 	  $(MAKE) install; \
 	)

@@ -101,6 +101,7 @@ build: $(SRC_DIRS)
 	patch $(SOURCE_DIR)/Configure patch-files/Configure.patch
 	cp input $(SOURCE_DIR)
 	( \
+          $(call MODULE_LOAD_COMPILER,'gnu','gcc'); \
 	  $(MODULE_LOAD_CC); \
           $(MODULE_LOAD_MPI); \
 	  $(MODULE_LOAD_HDF5); \
@@ -136,6 +137,7 @@ install::
 	mkdir -p $(ROOT)/$(PKGROOT)
 	$(PKGROOT_BIND_MOUNT)
 	( \
+          $(call MODULE_LOAD_COMPILER,'gnu','gcc');  \
 	  $(MODULE_LOAD_CC); \
           $(MODULE_LOAD_MPI); \
 	  $(MODULE_LOAD_HDF5); \
@@ -144,7 +146,7 @@ install::
           export CXX=$(CXX); \
 	  cd $(SOURCE_DIR); \
           export PATH=`pwd`:$${PATH}; \
-          $(MAKE) Everything; \
+          $(MAKE) -j 16 Everything; \
           cp -r $(NCAR_CACHE)/szip/lib/* $(ROOT)/$(PKGROOT)/lib; \
           cp -r $(NCAR_CACHE)/udunits/lib/* $(ROOT)/$(PKGROOT)/lib; \
 	)

@@ -4,7 +4,9 @@ module-whatis "Version: VERSION"
 module-whatis "Description: ncar_ncarg"
 setenv NCLNCARGHOME /opt/ncl_ncarg
 setenv NCARG_ROOT /opt/ncl_ncarg
+setenv NCARG_NCARG /opt/ncl_ncarg/lib/ncarg
 prepend-path PATH /opt/ncl_ncarg/bin
 prepend-path LD_LIBRARY_PATH /opt/ncl_ncarg/lib
 prepend-path LD_LIBRARY_PATH /opt/ncview/lib
+module purge
 module load gnu ROLLCOMPILER ROLLMPI hdf5 netcdf
